@@ -12,21 +12,21 @@ enum BagAction {
     PullOrb,
 }
 
-enum PullExecution {
+enum PullEffect {
     OrbsRemaining,
     LastOrb,
 }
 
-fn stf_bag(bag: Bag, action: &BagAction, execution: &PullExecution) -> Bag {
-    match (bag, action, execution) {
-        (Bag::Full(_), BagAction::PullOrb, PullExecution::OrbsRemaining) => {
+fn stf_bag(bag: Bag, action: &BagAction, effect: &PullEffect) -> Bag {
+    match (bag, action, effect) {
+        (Bag::Full(_), BagAction::PullOrb, PullEffect::OrbsRemaining) => {
             Bag::InProgress(InProgressData)
         }
-        (Bag::Full(_), BagAction::PullOrb, PullExecution::LastOrb) => Bag::Empty(EmptyData),
-        (Bag::InProgress(_), BagAction::PullOrb, PullExecution::OrbsRemaining) => {
+        (Bag::Full(_), BagAction::PullOrb, PullEffect::LastOrb) => Bag::Empty(EmptyData),
+        (Bag::InProgress(_), BagAction::PullOrb, PullEffect::OrbsRemaining) => {
             Bag::InProgress(InProgressData)
         }
-        (Bag::InProgress(_), BagAction::PullOrb, PullExecution::LastOrb) => Bag::Empty(EmptyData),
+        (Bag::InProgress(_), BagAction::PullOrb, PullEffect::LastOrb) => Bag::Empty(EmptyData),
         (state, _, _) => state,
     }
 }

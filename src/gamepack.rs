@@ -15,7 +15,7 @@ enum GamePackAction {
     NextGame,
 }
 
-enum PackProgressExecution {
+enum PackProgressEffect {
     MoreGamesRemaining,
     AllGamesComplete,
 }
@@ -23,18 +23,18 @@ enum PackProgressExecution {
 fn stf_gamepack(
     pack: GamePack,
     action: &GamePackAction,
-    progress: &PackProgressExecution,
+    progress: &PackProgressEffect,
 ) -> GamePack {
     match (pack, action, progress) {
         (
             GamePack::GameActive(_),
             GamePackAction::Win | GamePackAction::Lose | GamePackAction::CashOut,
-            PackProgressExecution::MoreGamesRemaining,
+            PackProgressEffect::MoreGamesRemaining,
         ) => GamePack::GameComplete(CompletedGameData),
         (
             GamePack::GameActive(_),
             GamePackAction::Win | GamePackAction::Lose | GamePackAction::CashOut,
-            PackProgressExecution::AllGamesComplete,
+            PackProgressEffect::AllGamesComplete,
         ) => GamePack::PackComplete(PackResults),
         (GamePack::GameComplete(_), GamePackAction::NextGame, _) => {
             GamePack::GameActive(ActiveGameData)

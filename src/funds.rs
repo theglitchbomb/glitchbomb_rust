@@ -11,17 +11,17 @@ enum FundsAction {
     EarnMoney,
 }
 
-enum SpendExecution {
+enum SpendEffect {
     StillStacked,
     GoingBroke,
 }
 
-fn stf_funds(funds: Funds, action: &FundsAction, execution: &SpendExecution) -> Funds {
-    match (funds, action, execution) {
-        (Funds::Stacked(_), FundsAction::SpendMoney, SpendExecution::StillStacked) => {
+fn stf_funds(funds: Funds, action: &FundsAction, effect: &SpendEffect) -> Funds {
+    match (funds, action, effect) {
+        (Funds::Stacked(_), FundsAction::SpendMoney, SpendEffect::StillStacked) => {
             Funds::Stacked(StackedData)
         }
-        (Funds::Stacked(_), FundsAction::SpendMoney, SpendExecution::GoingBroke) => {
+        (Funds::Stacked(_), FundsAction::SpendMoney, SpendEffect::GoingBroke) => {
             Funds::Broke(BrokeData)
         }
         (Funds::Broke(_), FundsAction::EarnMoney, _) => Funds::Stacked(StackedData),

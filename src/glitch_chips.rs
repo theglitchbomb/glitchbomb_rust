@@ -7,7 +7,7 @@ enum GlitchChipsAction {
     Spend,
 }
 
-enum SpendExecution {
+enum SpendEffect {
     SomeGC,
     ZeroGC,
 }
@@ -15,12 +15,12 @@ enum SpendExecution {
 fn stf_glitch_chips(
     glitch_chips: GlitchChips,
     action: &GlitchChipsAction,
-    execution: &SpendExecution,
+    effect: &SpendEffect,
 ) -> GlitchChips {
-    match (glitch_chips, action, execution) {
+    match (glitch_chips, action, effect) {
         (None, GlitchChipsAction::Earn, _) => Some(GlitchChipsData),
-        (Some(_), GlitchChipsAction::Spend, SpendExecution::SomeGC) => Some(GlitchChipsData),
-        (Some(_), GlitchChipsAction::Spend, SpendExecution::ZeroGC) => None,
+        (Some(_), GlitchChipsAction::Spend, SpendEffect::SomeGC) => Some(GlitchChipsData),
+        (Some(_), GlitchChipsAction::Spend, SpendEffect::ZeroGC) => None,
         (state, _, _) => state,
     }
 }

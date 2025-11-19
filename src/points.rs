@@ -12,29 +12,29 @@ enum PointsAction {
     Increment,
 }
 
-enum IncrementExecution {
+enum IncrementEffect {
     ZeroPoints,
     PointsLtMilestone,
     PointsGteMilestone,
 }
 
-fn stf_points(points: Points, action: &PointsAction, execution: &IncrementExecution) -> Points {
-    match (points, action, execution) {
-        (Points::Zero(_), PointsAction::Increment, IncrementExecution::PointsLtMilestone) => {
+fn stf_points(points: Points, action: &PointsAction, effect: &IncrementEffect) -> Points {
+    match (points, action, effect) {
+        (Points::Zero(_), PointsAction::Increment, IncrementEffect::PointsLtMilestone) => {
             Points::MilestoneNotMet(MilestoneNotMetData)
         }
-        (Points::Zero(_), PointsAction::Increment, IncrementExecution::PointsGteMilestone) => {
+        (Points::Zero(_), PointsAction::Increment, IncrementEffect::PointsGteMilestone) => {
             Points::MilestoneMet(MilestoneMetData)
         }
         (
             Points::MilestoneNotMet(_),
             PointsAction::Increment,
-            IncrementExecution::PointsLtMilestone,
+            IncrementEffect::PointsLtMilestone,
         ) => Points::MilestoneNotMet(MilestoneNotMetData),
         (
             Points::MilestoneNotMet(_),
             PointsAction::Increment,
-            IncrementExecution::PointsGteMilestone,
+            IncrementEffect::PointsGteMilestone,
         ) => Points::MilestoneMet(MilestoneMetData),
         (state, _, _) => state,
     }

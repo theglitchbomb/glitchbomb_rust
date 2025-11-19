@@ -13,23 +13,23 @@ enum HealthAction {
     TakeDamage,
 }
 
-enum HealthExecution {
+enum HealthEffect {
     MaxHP,
     SomeHP,
     ZeroHP,
 }
 
-fn stf_health(health: Health, action: &HealthAction, execution: &HealthExecution) -> Health {
-    match (health, action, execution) {
+fn stf_health(health: Health, action: &HealthAction, effect: &HealthEffect) -> Health {
+    match (health, action, effect) {
         (Health::Max(_), HealthAction::TakeDamage, _) => Health::Damaged(DamagedData),
-        (Health::Damaged(_), HealthAction::Heal, HealthExecution::MaxHP) => Health::Max(FullData),
-        (Health::Damaged(_), HealthAction::Heal, HealthExecution::SomeHP) => {
+        (Health::Damaged(_), HealthAction::Heal, HealthEffect::MaxHP) => Health::Max(FullData),
+        (Health::Damaged(_), HealthAction::Heal, HealthEffect::SomeHP) => {
             Health::Damaged(DamagedData)
         }
-        (Health::Damaged(_), HealthAction::TakeDamage, HealthExecution::SomeHP) => {
+        (Health::Damaged(_), HealthAction::TakeDamage, HealthEffect::SomeHP) => {
             Health::Damaged(DamagedData)
         }
-        (Health::Damaged(_), HealthAction::TakeDamage, HealthExecution::ZeroHP) => {
+        (Health::Damaged(_), HealthAction::TakeDamage, HealthEffect::ZeroHP) => {
             Health::Zero(ZeroData)
         }
         (state, _, _) => state,
