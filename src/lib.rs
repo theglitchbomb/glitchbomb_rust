@@ -2,6 +2,7 @@ pub mod bag;
 pub mod funds;
 pub mod game;
 pub mod gamepack;
+pub mod glitch_chips;
 pub mod health;
 pub mod multiplier;
 pub mod player;
