@@ -1,3 +1,4 @@
+pub mod bag;
 pub mod glitch_chips;
 pub mod health;
 pub mod moon_rocks;
