@@ -3,5 +3,6 @@ pub mod funds;
 pub mod game;
 pub mod gamepack;
 pub mod health;
+pub mod multiplier;
 pub mod player;
 pub mod points;
