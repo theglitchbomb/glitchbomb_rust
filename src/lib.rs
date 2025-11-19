@@ -4,6 +4,7 @@ pub mod game;
 pub mod gamepack;
 pub mod glitch_chips;
 pub mod health;
+pub mod moon_rocks;
 pub mod multiplier;
 pub mod player;
 pub mod points;
