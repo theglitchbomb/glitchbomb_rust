@@ -1,44 +1,40 @@
 enum GamePack {
-    GameActive(ActiveGameData),
-    GameComplete(CompletedGameData),
-    PackComplete(PackResults),
+    InGame(InGameData),
+    GameComplete(GameCompleteData),
+    GamePackComplete,
 }
 
-struct ActiveGameData;
-struct CompletedGameData;
-struct PackResults;
+struct InGameData;
+struct GameCompleteData;
 
 enum GamePackAction {
-    Win,
-    Lose,
-    CashOut,
+    PlayGame,
+    EndGame,
     NextGame,
 }
 
-enum PackProgressEffect {
-    MoreGamesRemaining,
-    AllGamesComplete,
+enum GamePackEffect {
+    SomeNewGames,
+    NoNewGames,
+    GameContinues,
+    GameConcludes,
 }
 
-fn stf_gamepack(
-    pack: GamePack,
-    action: &GamePackAction,
-    progress: &PackProgressEffect,
-) -> GamePack {
-    match (pack, action, progress) {
-        (
-            GamePack::GameActive(_),
-            GamePackAction::Win | GamePackAction::Lose | GamePackAction::CashOut,
-            PackProgressEffect::MoreGamesRemaining,
-        ) => GamePack::GameComplete(CompletedGameData),
-        (
-            GamePack::GameActive(_),
-            GamePackAction::Win | GamePackAction::Lose | GamePackAction::CashOut,
-            PackProgressEffect::AllGamesComplete,
-        ) => GamePack::PackComplete(PackResults),
-        (GamePack::GameComplete(_), GamePackAction::NextGame, _) => {
-            GamePack::GameActive(ActiveGameData)
+fn stf_gamepack(gamepack: GamePack, action: &GamePackAction, effect: &GamePackEffect) -> GamePack {
+    match (gamepack, action, effect) {
+        (GamePack::InGame(data), GamePackAction::PlayGame, GamePackEffect::GameContinues) => {
+            GamePack::InGame(data)
         }
+        (GamePack::InGame(data), GamePackAction::PlayGame, GamePackEffect::GameConcludes) => {
+            GamePack::GameComplete(GameCompleteData)
+        }
+        (GamePack::InGame(data), GamePackAction::EndGame, GamePackEffect::SomeNewGames) => {
+            GamePack::GameComplete(GameCompleteData)
+        }
+        (GamePack::InGame(data), GamePackAction::EndGame, GamePackEffect::NoNewGames) => {
+            GamePack::GamePackComplete
+        }
+        (GamePack::GameComplete(data), GamePackAction::NextGame, _) => GamePack::InGame(InGameData),
         (state, _, _) => state,
     }
 }
