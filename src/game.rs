@@ -4,6 +4,7 @@ enum GameState {
     Shop(ShopData),
     CashedOut(CashedOutData),
     GameOver(GameOverData),
+    Invalid,
 }
 
 struct LevelData;
@@ -34,25 +35,11 @@ fn handle_level_state(
 ) -> GameState {
     match (action, effect) {
         (GameAction::PullOrb, GameEffect::HealthReachesZero) => todo!(),
+        (GameAction::PullOrb, GameEffect::OrbsReachZero) => todo!(),
         (GameAction::PullOrb, GameEffect::PointsLtMilestone) => todo!(),
         (GameAction::PullOrb, GameEffect::PointsGteMilestone) => todo!(),
-        (GameAction::PullOrb, GameEffect::OrbsReachZero) => todo!(),
-        (GameAction::CashOut, GameEffect::HealthReachesZero) => todo!(),
         (GameAction::CashOut, GameEffect::PointsLtMilestone) => todo!(),
-        (GameAction::CashOut, GameEffect::PointsGteMilestone) => todo!(),
-        (GameAction::CashOut, GameEffect::OrbsReachZero) => todo!(),
-        (GameAction::EnterShop, GameEffect::HealthReachesZero) => todo!(),
-        (GameAction::EnterShop, GameEffect::PointsLtMilestone) => todo!(),
-        (GameAction::EnterShop, GameEffect::PointsGteMilestone) => todo!(),
-        (GameAction::EnterShop, GameEffect::OrbsReachZero) => todo!(),
-        (GameAction::BuyOrb, GameEffect::HealthReachesZero) => todo!(),
-        (GameAction::BuyOrb, GameEffect::PointsLtMilestone) => todo!(),
-        (GameAction::BuyOrb, GameEffect::PointsGteMilestone) => todo!(),
-        (GameAction::BuyOrb, GameEffect::OrbsReachZero) => todo!(),
-        (GameAction::NextLevel, GameEffect::HealthReachesZero) => todo!(),
-        (GameAction::NextLevel, GameEffect::PointsLtMilestone) => todo!(),
-        (GameAction::NextLevel, GameEffect::PointsGteMilestone) => todo!(),
-        (GameAction::NextLevel, GameEffect::OrbsReachZero) => todo!(),
+        (_, _) => GameState::Invalid,
     }
 }
 
@@ -61,41 +48,29 @@ fn handle_level_complete_state(
     action: &GameAction,
 ) -> GameState {
     match action {
-        GameAction::PullOrb => todo!(),
         GameAction::CashOut => todo!(),
         GameAction::EnterShop => todo!(),
-        GameAction::BuyOrb => todo!(),
-        GameAction::NextLevel => todo!(),
+        _ => GameState::Invalid,
     }
 }
 
 fn handle_shop_state(shop_data: ShopData, action: &GameAction) -> GameState {
     match action {
-        GameAction::PullOrb => todo!(),
-        GameAction::CashOut => todo!(),
-        GameAction::EnterShop => todo!(),
         GameAction::BuyOrb => todo!(),
         GameAction::NextLevel => todo!(),
+        _ => GameState::Invalid,
     }
 }
 
 fn handle_cashed_out_state(cashed_out_data: CashedOutData, action: &GameAction) -> GameState {
     match action {
-        GameAction::PullOrb => todo!(),
-        GameAction::CashOut => todo!(),
-        GameAction::EnterShop => todo!(),
-        GameAction::BuyOrb => todo!(),
-        GameAction::NextLevel => todo!(),
+        _ => GameState::Invalid,
     }
 }
 
 fn handle_game_over_state(game_over_data: GameOverData, action: &GameAction) -> GameState {
     match action {
-        GameAction::PullOrb => todo!(),
-        GameAction::CashOut => todo!(),
-        GameAction::EnterShop => todo!(),
-        GameAction::BuyOrb => todo!(),
-        GameAction::NextLevel => todo!(),
+        _ => GameState::Invalid,
     }
 }
 
@@ -108,5 +83,6 @@ fn stf_game(state: GameState, action: &GameAction, effect: &GameEffect) -> GameS
         GameState::Shop(shop_data) => handle_shop_state(shop_data, action),
         GameState::CashedOut(cashed_out_data) => handle_cashed_out_state(cashed_out_data, action),
         GameState::GameOver(game_over_data) => handle_game_over_state(game_over_data, action),
+        GameState::Invalid => panic!("Invalid Game State"),
     }
 }
