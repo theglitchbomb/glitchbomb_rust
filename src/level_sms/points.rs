@@ -1,41 +1,34 @@
-enum Points {
-    Zero(ZeroData),
-    MilestoneNotMet(MilestoneNotMetData),
-    MilestoneMet(MilestoneMetData),
-}
+use crate::invalid_states::InvalidState;
 
-struct ZeroData;
-struct MilestoneNotMetData;
-struct MilestoneMetData;
+const MILESTONE: u32 = 12;
+
+enum Points {
+    Zero,
+    MilestoneNotMet(u32),
+    MilestoneMet(u32),
+}
 
 enum PointsAction {
-    Increment,
+    Add(u32),
 }
 
-enum IncrementEffect {
-    ZeroPoints,
-    PointsLtMilestone,
-    PointsGteMilestone,
+fn stf_points(points: Points, action: &PointsAction) -> Result<Points, InvalidState> {
+    match (points, action) {
+        (Points::Zero, PointsAction::Add(amount)) => match amount {
+            p if *p >= MILESTONE => Ok(Points::MilestoneMet(*p)),
+            p if *p > 0 => Ok(Points::MilestoneNotMet(*p)),
+            _ => Err(InvalidState::InvalidPoints),
+        },
+        (Points::MilestoneNotMet(points), PointsAction::Add(amount)) => match points + amount {
+            p if p >= MILESTONE => Ok(Points::MilestoneMet(p)),
+            p => Ok(Points::MilestoneNotMet(p)),
+        },
+        (_, _) => Err(InvalidState::InvalidPoints),
+    }
 }
 
-fn stf_points(points: Points, action: &PointsAction, effect: &IncrementEffect) -> Points {
-    match (points, action, effect) {
-        (Points::Zero(_), PointsAction::Increment, IncrementEffect::PointsLtMilestone) => {
-            Points::MilestoneNotMet(MilestoneNotMetData)
-        }
-        (Points::Zero(_), PointsAction::Increment, IncrementEffect::PointsGteMilestone) => {
-            Points::MilestoneMet(MilestoneMetData)
-        }
-        (
-            Points::MilestoneNotMet(_),
-            PointsAction::Increment,
-            IncrementEffect::PointsLtMilestone,
-        ) => Points::MilestoneNotMet(MilestoneNotMetData),
-        (
-            Points::MilestoneNotMet(_),
-            PointsAction::Increment,
-            IncrementEffect::PointsGteMilestone,
-        ) => Points::MilestoneMet(MilestoneMetData),
-        (state, _, _) => state,
+impl Points {
+    fn new() -> Self {
+        Points::Zero
     }
 }
