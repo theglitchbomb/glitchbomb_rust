@@ -62,14 +62,12 @@ impl OrbMatrix {
         let pullable = vec![
             OrbEffect::Health(0),
             OrbEffect::Points(0),
-            OrbEffect::Multiplier(0),
             OrbEffect::Bomb(0),
+            OrbEffect::PointsPerAnyOrb(0),
+            OrbEffect::PointsPerBombPulled(0),
+            OrbEffect::Multiplier(0),
             OrbEffect::GlitchChips(0),
             OrbEffect::MoonRocks(0),
-            OrbEffect::Health(0),
-            OrbEffect::Points(0),
-            OrbEffect::Multiplier(0),
-            OrbEffect::Bomb(0),
         ];
         let consumed = Vec::new();
         OrbMatrix::Full(Internals { pullable, consumed })
