@@ -1,0 +1,15 @@
+pub enum InvalidState {
+    InvalidLevel,
+    InvalidPoints,
+    InvalidBag,
+    InvalidGlitchChips,
+    InvalidHealth,
+    InvalidMoonRocks,
+    InvalidMultiplier,
+    InvalidGlitchChipsCannotSpendZero,
+    InvalidGlitchChipsCannotEarnZero,
+    InvalidMoonRocksCannotSpendZero,
+    InvalidMoonRocksCannotEarnZero,
+    InvalidMultiplierCannotAddZero,
+    InvalidMultiplierMustBeMultipleOf50,
+}
